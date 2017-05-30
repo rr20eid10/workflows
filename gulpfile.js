@@ -15,10 +15,11 @@ var gulp = require("gulp"),
 // process our Coffeescript files.  go to node cmd prompt type: npm install --save-dev gulp-coffee
 // REQUIRE the plugin and assign it to a variable
 
-var coffee = require("gulp-coffee"),
-	concat = require("gulp-concat"),
-	browserify = require("gulp-browserify");  // instead of using a CDN (jquery, etc.)
-
+var coffee = require("gulp-coffee");
+// var sass = require("gulp-ruby-sass");	
+var browserify = require("gulp-browserify");// instead of using a CDN (jquery, etc.)
+var compass = require("gulp-compass");
+var concat = require("gulp-concat");
 
 // gulp.task("log", function(){
  
@@ -29,10 +30,14 @@ var coffee = require("gulp-coffee"),
 
 var coffeeSources = ["components/coffee/tagline.coffee"];
 var jsSources = [
-"components/scripts/rclick.js",
-"components/scripts/pixgrid.js",
-"components/scripts/tagline.js",
-"components/scripts/template.js"]
+	"components/scripts/rclick.js",
+	"components/scripts/pixgrid.js",
+	"components/scripts/tagline.js",
+	"components/scripts/template.js"
+];
+
+var sassSources = ["components/sass/style.scss"];
+
 
 
 // when I update (modify the process) any files piped in, open node, run gulp task command: gulp coffee 
@@ -53,3 +58,22 @@ gulp.task("js", function() {
 		.pipe(gulp.dest("builds/development/js"))
 
 });
+
+// when I update (modify the process) any files piped in, open node, run gulp task command: gulp js
+gulp.task("compass", function() {
+
+	gulp.src(sassSources)
+		.pipe(compass({
+			sass: "components/sass",
+			image: "builds/development/images",
+			style: "expanded",
+			lineNumbers: true 
+		}).on("error", gutil.log))
+		.pipe(gulp.dest("builds/development/css"))
+
+});
+
+// for the "style" property in the compass object, go to // http://goo.gl/6bCLQo
+// and  on the right nav, "output style" to see the options.  
+// also, if you are adding any responsive library
+// like bootstrap (?), add a "require" property under the style property
