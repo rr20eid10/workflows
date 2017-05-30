@@ -38,7 +38,7 @@ var jsSources = [
 ];
 
 var sassSources = ["components/sass/style.scss"];
-
+var htmlSources = ["builds/development/*.html"]
 
 
 // when I update (modify the process) any files piped in, open node, run gulp task command: gulp coffee 
@@ -85,6 +85,7 @@ gulp.task("watch", function() {
 	gulp.watch(coffeeSources, ["coffee"]);
 	gulp.watch(jsSources, ["js"]);
 	gulp.watch("components/sass/*.scss", ["compass"]);
+	gulp.watch(htmlSources, ["html"]);
 });
 
 
@@ -96,4 +97,11 @@ gulp.task("connect", function() {
 	});
 });
 
-gulp.task("default", ["coffee", "js", "compass", "watch", "connect"]);
+gulp.task("html", function() {
+
+	gulp.src(htmlSources)
+		.pipe(connect.reload())
+
+});
+
+gulp.task("default", ["coffee", "js", "compass", "watch", "connect", "html"]);
