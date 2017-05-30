@@ -8,7 +8,7 @@ var gulp = require("gulp"),
 
 //2.
 // one of the core principles behind gulp is that you take
-// some information and pass tht through a plugin or filter
+// some information and pass that through a plugin or filter
 // and then the output of that plugin becomes the input of a new plugin.
 // the method used for this is called "pipe" and it's part of what
 // makes gulp easy to understand and use.  So I'll use "piping" to 
@@ -16,7 +16,8 @@ var gulp = require("gulp"),
 // REQUIRE the plugin and assign it to a variable
 
 var coffee = require("gulp-coffee"),
-	concat = require("gulp-concat");
+	concat = require("gulp-concat"),
+	browserify = require("gulp-browserify");  // instead of using a CDN (jquery, etc.)
 
 
 // gulp.task("log", function(){
@@ -34,16 +35,21 @@ var jsSources = [
 "components/scripts/template.js"]
 
 
+// when I update (modify the process) any files piped in, open node, run gulp task command: gulp coffee 
 gulp.task("coffee", function() {
 	gulp.src(coffeeSources)
 		.pipe(coffee({bare: true})
 			.on("error", gutil.log))
-		.pipe(gulp.dest("components/scripts"));
+		.pipe(gulp.dest("components/scripts"))
 });
 
+
+// when I update (modify the process) any files piped in, open node, run gulp task command: gulp js
 gulp.task("js", function() {
 
 	gulp.src(jsSources)
 		.pipe(concat("script.js"))
-		.pipe(gulp.dest("builds/development/js"));
-})
+		.pipe(browserify())
+		.pipe(gulp.dest("builds/development/js"))
+
+});

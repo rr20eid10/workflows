@@ -79,7 +79,9 @@ var pixgrid = function() {
         }, !1);
     }
 }();
-var fill;
+var $, fill;
+
+$ = require("jquery");
 
 (fill = function(item) {
   return $('.tagline').append("" + item);
@@ -87,7 +89,7 @@ var fill;
 
 fill;
 
-// Mustache.js function fo rusing a file caled data.json and mergin it with a template
+// Mustache.js function for using a file called data.json and merging it with a template
 // Javascript and JSON
 // Chapter 4: Javascrpt and JSON in Action
 // Javascript Templating with mustache.js
