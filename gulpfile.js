@@ -19,6 +19,7 @@ var coffee = require("gulp-coffee");
 // var sass = require("gulp-ruby-sass");	
 var browserify = require("gulp-browserify");// instead of using a CDN (jquery, etc.)
 var compass = require("gulp-compass");
+var connect = require("gulp-connect");
 var concat = require("gulp-concat");
 
 // gulp.task("log", function(){
@@ -56,7 +57,7 @@ gulp.task("js", function() {
 		.pipe(concat("script.js"))
 		.pipe(browserify())
 		.pipe(gulp.dest("builds/development/js"))
-
+		.pipe(connect.reload())
 });
 
 // when I update (modify the process) any files piped in, open node, run gulp task command: gulp js
@@ -70,6 +71,7 @@ gulp.task("compass", function() {
 			lineNumbers: true 
 		}).on("error", gutil.log))
 		.pipe(gulp.dest("builds/development/css"))
+		.pipe(connect.reload())
 
 });
 
@@ -85,4 +87,13 @@ gulp.task("watch", function() {
 	gulp.watch("components/sass/*.scss", ["compass"]);
 });
 
-gulp.task("default", ["coffee", "js", "compass", "watch"]);
+
+gulp.task("connect", function() {
+
+	connect.server({
+		root: "builds/development/",
+		livereload: true
+	});
+});
+
+gulp.task("default", ["coffee", "js", "compass", "watch", "connect"]);
