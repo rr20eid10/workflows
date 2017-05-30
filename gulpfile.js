@@ -77,3 +77,10 @@ gulp.task("compass", function() {
 // and  on the right nav, "output style" to see the options.  
 // also, if you are adding any responsive library
 // like bootstrap (?), add a "require" property under the style property
+
+
+gulp.task("watch", function() {
+	gulp.watch(coffeeSources, ["coffee"]);
+	gulp.watch(jsSources, ["js"]);
+	gulp.watch("components/sass/*.scss", ["compass"]);
+});
